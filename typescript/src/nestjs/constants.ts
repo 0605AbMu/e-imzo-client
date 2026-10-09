@@ -1,0 +1,3 @@
+export const E_IMZO_MODULE_OPTIONS = 'E_IMZO_MODULE_OPTIONS';
+export const E_IMZO_CLIENT = 'E_IMZO_CLIENT';
+export const E_IMZO_SERVICE = 'E_IMZO_SERVICE';

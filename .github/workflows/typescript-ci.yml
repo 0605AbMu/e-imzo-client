@@ -1,0 +1,51 @@
+name: TypeScript CI
+
+on:
+  push:
+    branches: [ master, main ]
+    paths:
+      - 'typescript/**'
+      - '.github/workflows/typescript-ci.yml'
+  pull_request:
+    branches: [ master, main ]
+    paths:
+      - 'typescript/**'
+      - '.github/workflows/typescript-ci.yml'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 20.x, 22.x ]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        cache-dependency-path: 'typescript/package-lock.json'
+
+    - name: Install dependencies
+      working-directory: typescript
+      run: npm ci
+
+    - name: Run Typecheck
+      working-directory: typescript
+      run: npm run typecheck
+
+    - name: Run Tests
+      working-directory: typescript
+      run: npm test
+
+    - name: Build Package
+      working-directory: typescript
+      run: npm run build
+
+    - name: Pack Dry Run
+      working-directory: typescript
+      run: npm pack --dry-run

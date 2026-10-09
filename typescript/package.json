@@ -1,0 +1,98 @@
+{
+  "name": "e-imzo-server-client",
+  "version": "1.0.0",
+  "description": "Unofficial high-performance TypeScript & Node.js client SDK for Uzbekistan E-IMZO and E-IMZO-SERVER REST API with first-class NestJS support.",
+  "keywords": [
+    "e-imzo",
+    "eimzo",
+    "e-imzo-server",
+    "uzbekistan",
+    "dsq",
+    "eri",
+    "pkcs7",
+    "digital-signature",
+    "mobile-id",
+    "jshshir",
+    "pinfl",
+    "stir",
+    "tin",
+    "nestjs"
+  ],
+  "author": "0605AbMu",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/0605AbMu/e-imzo-client.git",
+    "directory": "typescript"
+  },
+  "homepage": "https://github.com/0605AbMu/e-imzo-client#readme",
+  "bugs": {
+    "url": "https://github.com/0605AbMu/e-imzo-client/issues"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    },
+    "./nestjs": {
+      "import": {
+        "types": "./dist/nestjs/index.d.mts",
+        "default": "./dist/nestjs/index.mjs"
+      },
+      "require": {
+        "types": "./dist/nestjs/index.d.ts",
+        "default": "./dist/nestjs/index.js"
+      }
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run typecheck && npm run test && npm run build"
+  },
+  "peerDependencies": {
+    "@nestjs/common": ">=8.0.0 || >=9.0.0 || >=10.0.0 || >=11.0.0",
+    "@nestjs/core": ">=8.0.0 || >=9.0.0 || >=10.0.0 || >=11.0.0",
+    "reflect-metadata": "^0.1.13 || ^0.2.0 || ^0.2.2"
+  },
+  "peerDependenciesMeta": {
+    "@nestjs/common": {
+      "optional": true
+    },
+    "@nestjs/core": {
+      "optional": true
+    },
+    "reflect-metadata": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@nestjs/common": "^11.0.11",
+    "@nestjs/core": "^11.0.11",
+    "@nestjs/testing": "^11.0.11",
+    "@swc/core": "^1.16.13",
+    "@types/node": "^22.13.9",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2",
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.2",
+    "unplugin-swc": "^2.0.0",
+    "vitest": "^3.0.7"
+  }
+}

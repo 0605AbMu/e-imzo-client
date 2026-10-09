@@ -1,0 +1,65 @@
+name: Publish NPM Package
+
+on:
+  release:
+    types: [ published ]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish (e.g. 1.0.0). Defaults to package.json version.'
+        required: false
+        default: ''
+      tag:
+        description: 'NPM dist-tag (e.g. latest, next, beta)'
+        required: false
+        default: 'latest'
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22.x
+        registry-url: 'https://registry.npmjs.org'
+        cache: 'npm'
+        cache-dependency-path: 'typescript/package-lock.json'
+
+    - name: Install dependencies
+      working-directory: typescript
+      run: npm ci
+
+    - name: Set Version
+      if: ${{ github.event.inputs.version != '' }}
+      working-directory: typescript
+      run: |
+        npm version ${{ github.event.inputs.version }} --no-git-tag-version
+
+    - name: Run Typecheck & Tests
+      working-directory: typescript
+      run: |
+        npm run typecheck
+        npm test
+
+    - name: Build Package
+      working-directory: typescript
+      run: npm run build
+
+    - name: Publish to NPM
+      working-directory: typescript
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      run: |
+        npm publish --access public --tag ${{ github.event.inputs.tag || 'latest' }} --provenance

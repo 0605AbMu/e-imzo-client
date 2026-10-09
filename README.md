@@ -40,15 +40,18 @@ e-imzo-client/
 │   │   └── EImzo.Client.Tests/
 │   └── samples/
 │       └── EImzo.Client.Sample/
+├── typescript/            # TypeScript & Node.js SDK (with first-class NestJS support)
+│   ├── src/               # Core SDK & NestJS module
+│   └── tests/             # Vitest test suite
 ├── .github/
-│   └── workflows/         # Automated CI/CD & NuGet publishing pipelines
+│   └── workflows/         # Automated CI/CD & publishing pipelines (.NET & TypeScript)
 └── README.md
 ```
 
-Planned language SDKs in future iterations:
+Language SDKs:
 - [x] **.NET (C#)** (`dotnet/`)
+- [x] **TypeScript / Node.js & NestJS** (`typescript/`)
 - [ ] **Go** (`golang/`)
-- [ ] **TypeScript / Node.js** (`typescript/`)
 - [ ] **Python** (`python/`)
 
 ---
@@ -75,10 +78,25 @@ For detailed usage and code examples, see [dotnet/README.md](dotnet/README.md) o
 
 ---
 
+## ⚡ TypeScript / Node.js & NestJS SDK (`e-imzo-server-client`)
+
+High-performance, strongly-typed TypeScript & Node.js SDK targeting Node.js 18+, 20+, 22+, and 24+ with zero runtime dependencies and native NestJS module integration.
+
+### Key Features
+- **Zero Runtime Dependencies**: Standard `fetch` and fast native IEEE 802.3 CRC32 calculation.
+- **Dual ESM / CJS Packaging**: Out-of-the-box support for `import` and `require()`, complete with `.d.ts` declarations.
+- **First-Class NestJS Module**: `EImzoModule.register(...)` and `EImzoModule.registerAsync(...)`, inject via `EImzoService` or `@InjectEImzoClient()`.
+- **Complete Feature Parity**: Full support for Web Auth, PKCS#7 Attached/Detached verification, Mobile ID-CARD, Uzbek OIDs, and Mobile Deeplinks.
+
+For detailed usage and code examples, see [typescript/README.md](typescript/README.md).
+
+---
+
 ## 🛠 Contributing & Development
 
 ### Prerequisites
 - [.NET SDK 8.0 or 10.0+](https://dotnet.microsoft.com/download)
+- [Node.js 20.x or 22.x+](https://nodejs.org/)
 
 ### Building and Testing .NET
 ```bash
@@ -86,6 +104,15 @@ cd dotnet
 dotnet restore
 dotnet build -c Release
 dotnet test -c Release --verbosity normal
+```
+
+### Building and Testing TypeScript
+```bash
+cd typescript
+npm install
+npm run typecheck
+npm test
+npm run build
 ```
 
 ---

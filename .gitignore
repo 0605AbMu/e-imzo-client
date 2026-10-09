@@ -36,3 +36,11 @@ ehthumbs.db
 *.log
 *.log.*
 logs/
+
+# Node.js / TypeScript
+node_modules/
+typescript/node_modules/
+typescript/dist/
+*.tsbuildinfo
+.npm/
+
