@@ -1,0 +1,33 @@
+<Project>
+  <PropertyGroup>
+    <!-- Common build settings -->
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <Deterministic>true</Deterministic>
+
+    <!-- Packaging & NuGet Metadata -->
+    <Version>1.0.0</Version>
+    <Authors>E-IMZO Client Contributors</Authors>
+    <Company>E-IMZO Client</Company>
+    <Copyright>Copyright (c) 2026 E-IMZO Client Contributors</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/qo0p/e-imzo-client</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/qo0p/e-imzo-client</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>e-imzo;eimzo;digital-signature;ecp;pkcs7;uzbekistan;esp;eds;identity;idcard;mobile;auth;crypto</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+
+    <!-- SourceLink and Symbols -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+</Project>

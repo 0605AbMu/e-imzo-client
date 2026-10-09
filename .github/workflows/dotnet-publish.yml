@@ -1,0 +1,46 @@
+name: Publish to NuGet
+
+on:
+  release:
+    types: [ published ]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish (e.g. 1.0.0)'
+        required: false
+        default: ''
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: |
+          8.0.x
+          9.0.x
+
+    - name: Restore dependencies
+      run: dotnet restore dotnet/EImzo.sln
+
+    - name: Build Solution
+      run: dotnet build dotnet/EImzo.sln -c Release --no-restore
+
+    - name: Run Tests
+      run: dotnet test dotnet/EImzo.sln -c Release --no-build --verbosity normal
+
+    - name: Pack NuGet package
+      run: |
+        VERSION_PARAM=""
+        if [ -n "${{ github.event.inputs.version }}" ]; then
+          VERSION_PARAM="-p:PackageVersion=${{ github.event.inputs.version }}"
+        fi
+        dotnet pack dotnet/src/EImzo.Client/EImzo.Client.csproj -c Release --no-build -o ./artifacts $VERSION_PARAM
+
+    - name: Push to NuGet
+      run: dotnet nuget push "./artifacts/*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate

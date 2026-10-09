@@ -1,0 +1,38 @@
+# Root .gitignore for E-IMZO Client Monorepo
+
+# .NET / C#
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+.idea/
+.vscode/
+*.DotSettings.user
+
+# Build and Test Results
+TestResults/
+*.trx
+coverage/
+*.cobertura.xml
+
+# NuGet
+artifacts/
+*.nupkg
+*.snupkg
+project.lock.json
+project.assets.json
+*.nuget.props
+*.nuget.targets
+
+# OS generated files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# Logs
+*.log
+*.log.*
+logs/
