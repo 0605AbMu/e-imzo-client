@@ -4,7 +4,10 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![.NET Targets](https://img.shields.io/badge/.NET-8.0%20%7C%209.0%20%7C%20Standard%202.0%20%7C%20Standard%202.1-purple.svg)](https://dotnet.microsoft.com/)
 
-Official-grade, high-performance .NET Client SDK for Uzbekistan's **E-IMZO** and **E-IMZO-SERVER** REST-API and Mobile ID-CARD system.
+> [!IMPORTANT]
+> **Disclaimer**: This library is an **unofficial**, community-driven client SDK. It is not affiliated with, sponsored by, or endorsed by the State Tax Committee of Uzbekistan (DSQ), SIC "Yangi Texnologiyalar", or official E-IMZO service operators.
+
+High-performance, community-maintained **unofficial** .NET Client SDK for Uzbekistan's **E-IMZO** and **E-IMZO-SERVER** REST-API and Mobile ID-CARD system.
 
 Reference documentation: [qo0p/e-imzo-doc](https://github.com/qo0p/e-imzo-doc/blob/master/README.md).
 
@@ -12,12 +15,46 @@ Reference documentation: [qo0p/e-imzo-doc](https://github.com/qo0p/e-imzo-doc/bl
 
 ## 📦 Installation
 
-Install via NuGet Package Manager:
+### Option 1: Via GitHub Packages
+
+1. Add the GitHub Packages NuGet source using your Personal Access Token (`read:packages` scope):
+```bash
+dotnet nuget add source --name github \
+  --username <GITHUB_USERNAME> \
+  --password <GITHUB_PAT> \
+  --store-password-in-clear-text \
+  "https://nuget.pkg.github.com/0605AbMu/index.json"
+```
+
+2. Add the package to your project:
 ```bash
 dotnet add package EImzo.Client
 ```
 
-Or via the Visual Studio Package Manager:
+Alternatively, add `nuget.config` to your solution root:
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <packageSources>
+    <add key="nuget.org" value="https://api.nuget.org/v3/index.json" />
+    <add key="github" value="https://nuget.pkg.github.com/0605AbMu/index.json" />
+  </packageSources>
+  <packageSourceCredentials>
+    <github>
+      <add key="Username" value="%GITHUB_USERNAME%" />
+      <add key="ClearTextPassword" value="%GITHUB_TOKEN%" />
+    </github>
+  </packageSourceCredentials>
+</configuration>
+```
+
+### Option 2: Via NuGet.org (once published)
+
+```bash
+dotnet add package EImzo.Client
+```
+
+Or via Package Manager Console:
 ```powershell
 Install-Package EImzo.Client
 ```

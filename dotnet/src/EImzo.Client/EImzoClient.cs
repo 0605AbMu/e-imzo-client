@@ -13,7 +13,7 @@ using Microsoft.Extensions.Options;
 namespace EImzo.Client;
 
 /// <summary>
-/// Default implementation of the <see cref="IEImzoClient"/> interface.
+/// Default implementation of the unofficial <see cref="IEImzoClient"/> interface.
 /// </summary>
 public class EImzoClient : IEImzoClient
 {

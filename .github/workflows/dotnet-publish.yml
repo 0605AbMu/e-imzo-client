@@ -1,14 +1,21 @@
-name: Publish to NuGet
+name: Publish NuGet Package
 
 on:
   release:
     types: [ published ]
+  push:
+    tags:
+      - 'v*.*.*'
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version to publish (e.g. 1.0.0)'
+        description: 'Version to publish (e.g. 1.0.0). Defaults to project version or tag.'
         required: false
         default: ''
+
+permissions:
+  contents: read
+  packages: write
 
 jobs:
   publish:
@@ -25,22 +32,59 @@ jobs:
           8.0.x
           9.0.x
 
+    - name: Resolve Version
+      id: version
+      shell: bash
+      run: |
+        VERSION=""
+        if [ -n "${{ github.event.inputs.version }}" ]; then
+          VERSION="${{ github.event.inputs.version }}"
+        elif [[ "${{ github.ref }}" == refs/tags/v* ]]; then
+          VERSION="${GITHUB_REF_NAME#v}"
+        fi
+        echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+        if [ -n "$VERSION" ]; then
+          echo "Target version: $VERSION"
+        else
+          echo "Using default project version"
+        fi
+
     - name: Restore dependencies
       run: dotnet restore dotnet/EImzo.sln
 
     - name: Build Solution
-      run: dotnet build dotnet/EImzo.sln -c Release --no-restore
+      run: |
+        EXTRA_ARGS=""
+        if [ -n "${{ steps.version.outputs.version }}" ]; then
+          EXTRA_ARGS="-p:Version=${{ steps.version.outputs.version }}"
+        fi
+        dotnet build dotnet/EImzo.sln -c Release --no-restore $EXTRA_ARGS
 
     - name: Run Tests
       run: dotnet test dotnet/EImzo.sln -c Release --no-build --verbosity normal
 
     - name: Pack NuGet package
       run: |
-        VERSION_PARAM=""
-        if [ -n "${{ github.event.inputs.version }}" ]; then
-          VERSION_PARAM="-p:PackageVersion=${{ github.event.inputs.version }}"
+        EXTRA_ARGS=""
+        if [ -n "${{ steps.version.outputs.version }}" ]; then
+          EXTRA_ARGS="-p:PackageVersion=${{ steps.version.outputs.version }} -p:Version=${{ steps.version.outputs.version }}"
         fi
-        dotnet pack dotnet/src/EImzo.Client/EImzo.Client.csproj -c Release --no-build -o ./artifacts $VERSION_PARAM
+        dotnet pack dotnet/src/EImzo.Client/EImzo.Client.csproj -c Release --no-build -o ./artifacts -p:RepositoryUrl="https://github.com/${{ github.repository }}" $EXTRA_ARGS
 
-    - name: Push to NuGet
-      run: dotnet nuget push "./artifacts/*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+    - name: Push to GitHub Packages
+      run: |
+        dotnet nuget push "./artifacts/*.nupkg" \
+          --api-key ${{ secrets.GITHUB_TOKEN }} \
+          --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
+          --skip-duplicate \
+          --no-symbols
+
+    - name: Push to NuGet.org (Optional)
+      if: env.NUGET_API_KEY != ''
+      env:
+        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+      run: |
+        dotnet nuget push "./artifacts/*.nupkg" \
+          --api-key ${{ secrets.NUGET_API_KEY }} \
+          --source https://api.nuget.org/v3/index.json \
+          --skip-duplicate

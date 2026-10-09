@@ -7,7 +7,7 @@ using Microsoft.Extensions.Hosting;
 
 Console.OutputEncoding = System.Text.Encoding.UTF8;
 Console.WriteLine("=================================================");
-Console.WriteLine("    E-IMZO .NET Client SDK - Sample Runner      ");
+Console.WriteLine("    E-IMZO .NET Client SDK (Unofficial) - Sample");
 Console.WriteLine("=================================================");
 
 var host = Host.CreateDefaultBuilder(args)

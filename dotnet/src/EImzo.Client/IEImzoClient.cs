@@ -7,7 +7,7 @@ using EImzo.Client.Models.Pkcs7;
 namespace EImzo.Client;
 
 /// <summary>
-/// Strongly-typed client interface for the Uzbekistan E-IMZO and E-IMZO-SERVER REST-API.
+/// Strongly-typed unofficial client interface for Uzbekistan E-IMZO and E-IMZO-SERVER REST-API.
 /// </summary>
 public interface IEImzoClient
 {

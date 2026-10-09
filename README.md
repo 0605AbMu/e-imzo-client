@@ -1,10 +1,13 @@
 # E-IMZO Client SDK (Monorepo)
 
-[![Build & Test](https://github.com/qo0p/e-imzo-client/actions/workflows/dotnet-ci.yml/badge.svg)](https://github.com/qo0p/e-imzo-client/actions/workflows/dotnet-ci.yml)
+[![Build & Test](https://github.com/0605AbMu/e-imzo-client/actions/workflows/dotnet-ci.yml/badge.svg)](https://github.com/0605AbMu/e-imzo-client/actions/workflows/dotnet-ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![NuGet Version](https://img.shields.io/nuget/v/EImzo.Client.svg)](https://www.nuget.org/packages/EImzo.Client)
 
-Multi-language API Client SDK Monorepo for Uzbekistan's **E-IMZO** and **E-IMZO-SERVER** (State Electronic Digital Signature & Mobile ID-CARD system).
+> [!IMPORTANT]
+> **Disclaimer**: This is an **unofficial**, community-maintained open-source client SDK monorepo. It is neither affiliated with, endorsed by, nor maintained by the State Tax Committee of Uzbekistan (DSQ), SIC "Yangi Texnologiyalar", or official E-IMZO service operators.
+
+Unofficial multi-language API Client SDK Monorepo for Uzbekistan's **E-IMZO** and **E-IMZO-SERVER** REST API and Mobile ID-CARD system.
 
 Documentation reference: [qo0p/e-imzo-doc](https://github.com/qo0p/e-imzo-doc/blob/master/README.md).
 
@@ -38,7 +41,7 @@ Planned language SDKs in future iterations:
 
 ## 🚀 .NET SDK (`EImzo.Client`)
 
-High-performance, strongly-typed, modern .NET Client SDK targeting `.NET 8`, `.NET 9`, `.NET Standard 2.0`, and `.NET Standard 2.1`.
+High-performance, strongly-typed, modern unofficial .NET Client SDK targeting `.NET 8`, `.NET 9`, `.NET Standard 2.0`, and `.NET Standard 2.1`.
 
 ### Key Features
 - **Comprehensive API Coverage**:

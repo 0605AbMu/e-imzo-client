@@ -1,6 +1,8 @@
-# E-IMZO .NET Client SDK
+# E-IMZO .NET Client SDK (Unofficial)
 
-This folder contains the complete .NET solution and projects for the E-IMZO Client SDK:
+> **Disclaimer**: This is an **unofficial** community client library. It is not affiliated with or endorsed by official E-IMZO service operators.
+
+This folder contains the complete .NET solution and projects for the unofficial E-IMZO Client SDK:
 
 - **`src/EImzo.Client`**: The primary, production-ready NuGet package targeting `.NET 8`, `.NET 9`, `.NET Standard 2.0`, and `.NET Standard 2.1`.
 - **`tests/EImzo.Client.Tests`**: Unit and integration test suite with 100% test coverage for all endpoints, models, OID extractions, and mobile utilities.

@@ -9,14 +9,14 @@
 
     <!-- Packaging & NuGet Metadata -->
     <Version>1.0.0</Version>
-    <Authors>E-IMZO Client Contributors</Authors>
-    <Company>E-IMZO Client</Company>
-    <Copyright>Copyright (c) 2026 E-IMZO Client Contributors</Copyright>
+    <Authors>0605AbMu</Authors>
+    <Company>0605AbMu</Company>
+    <Copyright>Copyright (c) 2026 0605AbMu</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/qo0p/e-imzo-client</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/qo0p/e-imzo-client</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/0605AbMu/e-imzo-client</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/0605AbMu/e-imzo-client</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>e-imzo;eimzo;digital-signature;ecp;pkcs7;uzbekistan;esp;eds;identity;idcard;mobile;auth;crypto</PackageTags>
+    <PackageTags>e-imzo;eimzo;digital-signature;ecp;pkcs7;uzbekistan;esp;eds;identity;idcard;mobile;auth;crypto;unofficial</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 
