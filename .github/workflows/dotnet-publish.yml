@@ -16,10 +16,15 @@ on:
 permissions:
   contents: read
   packages: write
+  id-token: write
 
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
 
     steps:
     - name: Checkout code
@@ -71,6 +76,7 @@ jobs:
         fi
         dotnet pack dotnet/src/EImzo.Client/EImzo.Client.csproj -c Release --no-build -o ./artifacts -p:RepositoryUrl="https://github.com/${{ github.repository }}" $EXTRA_ARGS
 
+    # Publish to GitHub Packages
     - name: Push to GitHub Packages
       run: |
         dotnet nuget push "./artifacts/*.nupkg" \
@@ -79,12 +85,17 @@ jobs:
           --skip-duplicate \
           --no-symbols
 
-    - name: Push to NuGet.org (Optional)
-      if: env.NUGET_API_KEY != ''
-      env:
-        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+    # Exchange short-lived GitHub OIDC token for temporary NuGet.org API key (Trusted Publishing)
+    - name: NuGet login (OIDC → temp API key)
+      uses: NuGet/login@v1
+      id: login
+      with:
+        user: ${{ secrets.NUGET_USER || github.repository_owner }}
+
+    # Publish to NuGet.org
+    - name: Push to NuGet.org
       run: |
         dotnet nuget push "./artifacts/*.nupkg" \
-          --api-key ${{ secrets.NUGET_API_KEY }} \
+          --api-key ${{ steps.login.outputs.NUGET_API_KEY }} \
           --source https://api.nuget.org/v3/index.json \
           --skip-duplicate
