@@ -12,6 +12,18 @@ public class CertificatePublicKey
 
     [JsonPropertyName("publicKey")]
     public string? PublicKey { get; set; }
+
+    /// <summary>
+    /// Parameter set OID identifying cryptographic parameters and token type.
+    /// </summary>
+    [JsonPropertyName("paramSetOID")]
+    public string? ParamSetOid { get; set; }
+
+    /// <summary>
+    /// Type of digital signature key or hardware token determined by <see cref="ParamSetOid"/>.
+    /// </summary>
+    [JsonIgnore]
+    public Enums.EImzoKeyType KeyType => Enums.EImzoParamSetOids.ResolveKeyType(ParamSetOid);
 }
 
 /// <summary>

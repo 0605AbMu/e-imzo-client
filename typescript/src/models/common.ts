@@ -1,3 +1,5 @@
+import { EImzoKeyType } from '../enums/key-type.js';
+
 /**
  * OID constants for Uzbek digital signature certificate attributes.
  */
@@ -17,6 +19,39 @@ export const UZBEK_OIDS = {
    */
   PHYSICAL_PERSON_TIN: 'UID',
 } as const;
+
+/**
+ * Parameter set OIDs identifying cryptographic parameter sets and key / token types.
+ */
+export const EIMZO_PARAM_SET_OIDS = {
+  PFX: ['1.2.860.3.15.1.1.2.1.1', '1.2.860.3.15.2.1.2.1.1'],
+  ID_CARD: ['1.2.860.3.15.1.1.2.1.3', '1.2.860.3.15.2.1.2.1.3'],
+  BAIK: ['1.2.860.3.15.2.1.2.1.2'],
+  UZGUARD: ['1.2.860.3.15.2.1.2.1.4'],
+} as const;
+
+/**
+ * Resolves the key type (PFX, IdCard, Baik, Uzguard) based on paramSetOID.
+ */
+export function resolveKeyType(paramSetOid?: string): EImzoKeyType {
+  if (!paramSetOid) {
+    return EImzoKeyType.Unknown;
+  }
+  const trimmed = paramSetOid.trim();
+  if ((EIMZO_PARAM_SET_OIDS.PFX as readonly string[]).includes(trimmed)) {
+    return EImzoKeyType.Pfx;
+  }
+  if ((EIMZO_PARAM_SET_OIDS.ID_CARD as readonly string[]).includes(trimmed)) {
+    return EImzoKeyType.IdCard;
+  }
+  if ((EIMZO_PARAM_SET_OIDS.BAIK as readonly string[]).includes(trimmed)) {
+    return EImzoKeyType.Baik;
+  }
+  if ((EIMZO_PARAM_SET_OIDS.UZGUARD as readonly string[]).includes(trimmed)) {
+    return EImzoKeyType.Uzguard;
+  }
+  return EImzoKeyType.Unknown;
+}
 
 /**
  * Base response from E-IMZO-SERVER endpoints.
@@ -58,11 +93,14 @@ export interface TrustedCertificateInfo {
 }
 
 /**
- * Certificate public key parameters.
+ * Certificate public key parameters and algorithms.
  */
 export interface CertificatePublicKey {
   x?: string;
   y?: string;
+  keyAlgName?: string;
+  publicKey?: string;
+  paramSetOID?: string;
 }
 
 /**
@@ -74,6 +112,9 @@ export interface SubjectCertificateData {
   subjectName?: Record<string, string>;
   validFrom?: string;
   validTo?: string;
+  publicKeyParameter?: CertificatePublicKey;
+  publicKey?: CertificatePublicKey;
+  paramSetOID?: string;
 }
 
 /**
@@ -85,6 +126,9 @@ export class SubjectCertificateInfo implements SubjectCertificateData {
   public subjectName?: Record<string, string>;
   public validFrom?: string;
   public validTo?: string;
+  public publicKeyParameter?: CertificatePublicKey;
+  public publicKey?: CertificatePublicKey;
+  public paramSetOID?: string;
 
   constructor(data?: SubjectCertificateData) {
     if (data) {
@@ -93,7 +137,18 @@ export class SubjectCertificateInfo implements SubjectCertificateData {
       this.subjectName = data.subjectName;
       this.validFrom = data.validFrom;
       this.validTo = data.validTo;
+      this.publicKeyParameter = data.publicKeyParameter;
+      this.publicKey = data.publicKey;
+      this.paramSetOID = data.paramSetOID;
     }
+  }
+
+  /**
+   * Type of digital signature key or hardware token (Pfx, IdCard, Baik, Uzguard) determined by paramSetOID.
+   */
+  public get keyType(): EImzoKeyType {
+    const oid = this.publicKeyParameter?.paramSetOID ?? this.publicKey?.paramSetOID ?? this.paramSetOID;
+    return resolveKeyType(oid);
   }
 
   /**

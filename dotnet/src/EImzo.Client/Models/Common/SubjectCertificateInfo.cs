@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using EImzo.Client.Enums;
 using EImzo.Client.Serialization;
 
 namespace EImzo.Client.Models.Common;
@@ -50,6 +51,31 @@ public class SubjectCertificateInfo
     [JsonPropertyName("validTo")]
     [JsonConverter(typeof(FlexibleDateTimeConverter))]
     public DateTime? ValidTo { get; set; }
+
+    /// <summary>
+    /// Public key parameters returned by /backend/auth containing algorithm name and paramSetOID.
+    /// </summary>
+    [JsonPropertyName("publicKeyParameter")]
+    public CertificatePublicKey? PublicKeyParameter { get; set; }
+
+    /// <summary>
+    /// Public key details if present directly on certificate info.
+    /// </summary>
+    [JsonPropertyName("publicKey")]
+    public CertificatePublicKey? PublicKey { get; set; }
+
+    /// <summary>
+    /// Direct parameter set OID if present on certificate info.
+    /// </summary>
+    [JsonPropertyName("paramSetOID")]
+    public string? ParamSetOid { get; set; }
+
+    /// <summary>
+    /// Type of digital signature key or hardware token (PFX, IdCard, Baik, Uzguard) determined by paramSetOID.
+    /// </summary>
+    [JsonIgnore]
+    public EImzoKeyType KeyType => EImzoParamSetOids.ResolveKeyType(
+        PublicKeyParameter?.ParamSetOid ?? PublicKey?.ParamSetOid ?? ParamSetOid);
 
     /// <summary>
     /// 14-digit Individual Personal Identification Number (JSHSHIR / PINFL), retrieved via OID 1.2.860.3.16.1.2.

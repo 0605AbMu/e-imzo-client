@@ -71,5 +71,38 @@ public class SubjectCertificateTests
         Assert.Null(cert.CommonName);
         Assert.False(cert.IsLegalEntity);
         Assert.True(cert.IsPhysicalPerson);
+        Assert.Equal(Enums.EImzoKeyType.Unknown, cert.KeyType);
+    }
+
+    [Theory]
+    [InlineData("1.2.860.3.15.1.1.2.1.1", Enums.EImzoKeyType.Pfx)]
+    [InlineData("1.2.860.3.15.2.1.2.1.1", Enums.EImzoKeyType.Pfx)]
+    [InlineData("1.2.860.3.15.1.1.2.1.3", Enums.EImzoKeyType.IdCard)]
+    [InlineData("1.2.860.3.15.2.1.2.1.3", Enums.EImzoKeyType.IdCard)]
+    [InlineData("1.2.860.3.15.2.1.2.1.2", Enums.EImzoKeyType.Baik)]
+    [InlineData("1.2.860.3.15.2.1.2.1.4", Enums.EImzoKeyType.Uzguard)]
+    [InlineData("1.2.3.4.5", Enums.EImzoKeyType.Unknown)]
+    [InlineData("", Enums.EImzoKeyType.Unknown)]
+    [InlineData(null, Enums.EImzoKeyType.Unknown)]
+    public void ResolveKeyType_ShouldMapAllOids(string? oid, Enums.EImzoKeyType expected)
+    {
+        Assert.Equal(expected, Enums.EImzoParamSetOids.ResolveKeyType(oid));
+    }
+
+    [Fact]
+    public void SubjectCertificateInfo_ShouldDetectKeyTypeFromPublicKeyParameter()
+    {
+        var cert = new SubjectCertificateInfo
+        {
+            SerialNumber = "218712ed3",
+            PublicKeyParameter = new CertificatePublicKey
+            {
+                KeyAlgName = "OZMST-286-2024-2",
+                ParamSetOid = "1.2.860.3.15.2.1.2.1.1"
+            }
+        };
+
+        Assert.Equal(Enums.EImzoKeyType.Pfx, cert.KeyType);
+        Assert.Equal("1.2.860.3.15.2.1.2.1.1", cert.PublicKeyParameter.ParamSetOid);
     }
 }

@@ -5,6 +5,7 @@ import {
   EImzoValidationError,
   EImzoStatusCode,
   EImzoMobileStatusCode,
+  EImzoKeyType,
 } from '../src/index.js';
 
 function createMockFetch(responseBody: any, status = 200) {
@@ -164,7 +165,36 @@ describe('EImzoClient Endpoint Tests', () => {
     expect(res.subjectCertificateInfo?.isLegalEntity).toBe(true);
   });
 
-  it('verifyAttached returns signers and verification status', async () => {
+  it('authenticate parses publicKeyParameter and identifies PFX keyType', async () => {
+    const mock = createMockFetch({
+      status: 1,
+      message: '',
+      subjectCertificateInfo: {
+        serialNumber: '218712ed3',
+        X500Name: 'CN=XXX,UID=1234',
+        subjectName: {
+          UID: '1234',
+          CN: 'XXX',
+        },
+        validFrom: '2026-05-25 15:47:22',
+        validTo: '2026-06-24 15:47:22',
+        publicKeyParameter: {
+          keyAlgName: 'OZMST-286-2024-2',
+          paramSetOID: '1.2.860.3.15.2.1.2.1.1',
+        },
+      },
+    });
+
+    const client = new EImzoClient({ baseUrl, fetch: mock.fetch });
+    const res = await client.authenticate('SIGNED_PKCS7');
+
+    expect(res.status).toBe(1);
+    expect(res.subjectCertificateInfo?.publicKeyParameter?.paramSetOID).toBe('1.2.860.3.15.2.1.2.1.1');
+    expect(res.subjectCertificateInfo?.keyType).toBe(EImzoKeyType.Pfx);
+    expect(res.keyType).toBe(EImzoKeyType.Pfx);
+  });
+
+  it('verifyAttached returns signers, verification status and keyType', async () => {
     const mock = createMockFetch({
       status: 1,
       pkcs7Info: {
@@ -175,6 +205,10 @@ describe('EImzoClient Endpoint Tests', () => {
             certificate: {
               serialNumber: 'AAA',
               subjectName: { CN: 'SIGNER ONE' },
+              publicKey: {
+                keyAlgName: 'OZMST-286-2024-2',
+                paramSetOID: '1.2.860.3.15.2.1.2.1.4',
+              },
             },
           },
         ],
@@ -187,6 +221,7 @@ describe('EImzoClient Endpoint Tests', () => {
     expect(res.pkcs7Info?.isAllSignersValid).toBe(true);
     expect(res.pkcs7Info?.primarySigner?.verified).toBe(true);
     expect(res.pkcs7Info?.documentBase64).toBe('HELLO_WORLD_B64');
+    expect(res.pkcs7Info?.keyType).toBe(EImzoKeyType.Uzguard);
   });
 
   it('verifyDetached parses detached verification', async () => {

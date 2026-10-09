@@ -152,6 +152,89 @@ public class EImzoClientTests
     }
 
     [Fact]
+    public async Task AuthenticateAsync_WithPublicKeyParameter_ShouldDetectKeyType()
+    {
+        const string json = """
+        {
+          "status": 1,
+          "message": "",
+          "subjectCertificateInfo": {
+            "serialNumber": "218712ed3",
+            "X500Name": "CN=XXX,UID=1234",
+            "subjectName": {
+              "UID": "1234",
+              "CN": "XXX"
+            },
+            "validFrom": "2026-05-25 15:47:22",
+            "validTo": "2026-06-24 15:47:22",
+            "publicKeyParameter": {
+              "keyAlgName": "OZMST-286-2024-2",
+              "paramSetOID": "1.2.860.3.15.2.1.2.1.1"
+            }
+          }
+        }
+        """;
+
+        var handler = MockHttpMessageHandler.CreateJson(json);
+        var client = CreateClient(handler);
+
+        var response = await client.AuthenticateAsync("MIAGCSqGSIb3DQEHA...");
+
+        Assert.True(response.IsSuccess);
+        Assert.NotNull(response.SubjectCertificateInfo);
+        Assert.NotNull(response.SubjectCertificateInfo.PublicKeyParameter);
+        Assert.Equal("1.2.860.3.15.2.1.2.1.1", response.SubjectCertificateInfo.PublicKeyParameter.ParamSetOid);
+        Assert.Equal(Enums.EImzoKeyType.Pfx, response.SubjectCertificateInfo.KeyType);
+        Assert.Equal(Enums.EImzoKeyType.Pfx, response.KeyType);
+    }
+
+    [Fact]
+    public async Task VerifyAttachedAsync_WithSignerPublicKeyParamSetOid_ShouldDetectKeyType()
+    {
+        const string json = """
+        {
+          "pkcs7Info": {
+            "documentBase64": "c29tZSBkb2N1bWVudA==",
+            "signers": [
+              {
+                "signingTime": "2022-09-27 11:17:53",
+                "verified": true,
+                "certificateVerified": true,
+                "certificateValidAtSigningTime": true,
+                "certificate": [
+                  {
+                    "serialNumber": "218712ed3",
+                    "publicKey": {
+                      "keyAlgName": "OZMST-286-2024-2",
+                      "paramSetOID": "1.2.860.3.15.2.1.2.1.4"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "status": 1,
+          "message": ""
+        }
+        """;
+
+        var handler = MockHttpMessageHandler.CreateJson(json);
+        var client = CreateClient(handler);
+
+        var response = await client.VerifyAttachedAsync("MIAG_ATTACHED");
+
+        Assert.True(response.IsSuccess);
+        Assert.NotNull(response.Pkcs7Info);
+        var primarySigner = response.Pkcs7Info.PrimarySigner;
+        Assert.NotNull(primarySigner);
+        Assert.Equal(Enums.EImzoKeyType.Uzguard, primarySigner.KeyType);
+        Assert.NotNull(primarySigner.UserCertificate);
+        Assert.Equal(Enums.EImzoKeyType.Uzguard, primarySigner.UserCertificate.KeyType);
+        Assert.NotNull(primarySigner.UserCertificate.PublicKey);
+        Assert.Equal("1.2.860.3.15.2.1.2.1.4", primarySigner.UserCertificate.PublicKey.ParamSetOid);
+    }
+
+    [Fact]
     public async Task AttachTimestampAsync_ShouldReturnAttachedTimestamp()
     {
         const string json = """

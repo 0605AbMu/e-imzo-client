@@ -85,6 +85,7 @@ Install-Package EImzo.Client
   - `LegalEntityTin` (STIR - 9 digits) from OID `1.2.860.3.16.1.1`
   - `PhysicalPersonTin` from `UID`
   - `CommonName` (CN), `FirstName`, `Surname`, `Organization`, `IsLegalEntity`, `IsPhysicalPerson`
+- **Key Type Detection**: Auto-detects key/token type via `paramSetOID` (`Pfx`, `IdCard`, `Baik`, `Uzguard`).
 - **Mobile QR & Deeplink Generator**: Built-in IEEE 802.3 CRC32 calculation and standard `eimzo://sign?qc=...` generation.
 - **Multi-Language Error Descriptions**: Human-readable descriptions for all E-IMZO status codes in Uzbek (`uz`), Russian (`ru`), and English (`en`).
 

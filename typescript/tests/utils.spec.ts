@@ -11,6 +11,8 @@ import {
   SubjectCertificateInfo,
   UZBEK_OIDS,
   EImzoValidationError,
+  EImzoKeyType,
+  resolveKeyType,
 } from '../src/index.js';
 
 describe('CRC32 and Mobile Utilities', () => {
@@ -136,6 +138,32 @@ describe('SubjectCertificateInfo and Uzbek OID Mapping', () => {
     expect(cert.tin).toBeUndefined();
     expect(cert.isLegalEntity).toBe(false);
     expect(cert.isPhysicalPerson).toBe(true);
+    expect(cert.keyType).toBe(EImzoKeyType.Unknown);
+  });
+
+  it('determines keyType from publicKeyParameter paramSetOID correctly', () => {
+    const cert = new SubjectCertificateInfo({
+      serialNumber: '218712ed3',
+      publicKeyParameter: {
+        keyAlgName: 'OZMST-286-2024-2',
+        paramSetOID: '1.2.860.3.15.2.1.2.1.1',
+      },
+    });
+
+    expect(cert.keyType).toBe(EImzoKeyType.Pfx);
+    expect(cert.publicKeyParameter?.paramSetOID).toBe('1.2.860.3.15.2.1.2.1.1');
+  });
+
+  it('resolves all known key types from paramSetOID', () => {
+    expect(resolveKeyType('1.2.860.3.15.1.1.2.1.1')).toBe(EImzoKeyType.Pfx);
+    expect(resolveKeyType('1.2.860.3.15.2.1.2.1.1')).toBe(EImzoKeyType.Pfx);
+    expect(resolveKeyType('1.2.860.3.15.1.1.2.1.3')).toBe(EImzoKeyType.IdCard);
+    expect(resolveKeyType('1.2.860.3.15.2.1.2.1.3')).toBe(EImzoKeyType.IdCard);
+    expect(resolveKeyType('1.2.860.3.15.2.1.2.1.2')).toBe(EImzoKeyType.Baik);
+    expect(resolveKeyType('1.2.860.3.15.2.1.2.1.4')).toBe(EImzoKeyType.Uzguard);
+    expect(resolveKeyType('1.2.3.4.5')).toBe(EImzoKeyType.Unknown);
+    expect(resolveKeyType('')).toBe(EImzoKeyType.Unknown);
+    expect(resolveKeyType(undefined)).toBe(EImzoKeyType.Unknown);
   });
 });
 

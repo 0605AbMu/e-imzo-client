@@ -22,7 +22,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/0605AbMu/e-imzo-client.git",
+    "url": "git+https://github.com/0605AbMu/e-imzo-client.git",
     "directory": "typescript"
   },
   "homepage": "https://github.com/0605AbMu/e-imzo-client#readme",

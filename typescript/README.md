@@ -24,6 +24,7 @@ Compatible Server Docker: [`0605AbMu/e-imzo-server`](https://github.com/0605AbMu
   - **Mobile ID-CARD (E-IMZO Mobile)**: `/frontend/mobile/auth`, `/frontend/mobile/sign`, `/frontend/mobile/status`, `/frontend/mobile/upload`, `/backend/mobile/authenticate/{DocumentID}`, `/backend/mobile/verify`
 - 🏢 **First-Class NestJS Module**: Full dynamic module support (`EImzoModule.register(...)`, `EImzoModule.registerAsync(...)`), inject via `EImzoService` or `@InjectEImzoClient()`.
 - 🇺🇿 **Uzbek OID Helpers**: Auto-parsing of PINFL (JSHSHIR - `1.2.860.3.16.1.2`), Legal Entity TIN (STIR - `1.2.860.3.16.1.1`), Physical Person TIN (`UID`), organization name, and legal entity detection.
+- 🔑 **Key Type Detection**: Auto-detects key/token type via `paramSetOID` (`Pfx`, `IdCard`, `Baik`, `Uzguard`).
 - 📱 **Mobile QR & Deeplink Generator**: Built-in IEEE 802.3 CRC32 checksum calculation, QR code generator, and `eimzo://sign?qc=...` deeplink generator and validator.
 - 📦 **Dual ESM & CommonJS**: Full compatibility with both `import` and `require()`, complete with TypeScript declarations (`.d.ts` / `.d.mts`) and sourcemaps.
 

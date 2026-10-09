@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using EImzo.Client.Enums;
 using EImzo.Client.Serialization;
 
 namespace EImzo.Client.Models.Common;
@@ -64,6 +65,12 @@ public class SignerInfo
     /// </summary>
     [JsonIgnore]
     public CertificateDetailInfo? UserCertificate => Certificate != null && Certificate.Count > 0 ? Certificate[0] : null;
+
+    /// <summary>
+    /// Gets the key type of the primary signer certificate determined by its public key paramSetOID.
+    /// </summary>
+    [JsonIgnore]
+    public EImzoKeyType KeyType => UserCertificate?.KeyType ?? EImzoKeyType.Unknown;
 }
 
 public class SignerIdInfo
@@ -105,6 +112,12 @@ public class CertificateDetailInfo
 
     [JsonPropertyName("signature")]
     public CertificateSignature? Signature { get; set; }
+
+    /// <summary>
+    /// Type of digital signature key or hardware token determined by public key paramSetOID.
+    /// </summary>
+    [JsonIgnore]
+    public EImzoKeyType KeyType => PublicKey?.KeyType ?? EImzoKeyType.Unknown;
 }
 
 public class TimeStampDetailInfo

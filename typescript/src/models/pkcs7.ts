@@ -1,5 +1,6 @@
 import type { EImzoResponse, SignerInfo, SubjectCertificateData } from './common.js';
 import { SubjectCertificateInfo, wrapSubjectCertificate } from './common.js';
+import { EImzoKeyType } from '../enums/key-type.js';
 
 export interface Pkcs7InfoData {
   documentBase64?: string;
@@ -25,6 +26,22 @@ export class Pkcs7Info implements Pkcs7InfoData {
    */
   public get primarySigner(): SignerInfo | undefined {
     return this.signers && this.signers.length > 0 ? this.signers[0] : undefined;
+  }
+
+  /**
+   * Primary signer certificate.
+   */
+  public get primaryCertificate(): SubjectCertificateInfo | undefined {
+    const cert = this.primarySigner?.certificate;
+    if (!cert) return undefined;
+    return Array.isArray(cert) ? (cert[0] as SubjectCertificateInfo) : (cert as SubjectCertificateInfo);
+  }
+
+  /**
+   * Type of digital signature key or hardware token of the primary signer.
+   */
+  public get keyType(): EImzoKeyType {
+    return this.primaryCertificate?.keyType ?? EImzoKeyType.Unknown;
   }
 
   /**
