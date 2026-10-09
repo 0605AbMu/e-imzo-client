@@ -1,6 +1,6 @@
 {
   "name": "e-imzo-server-client",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Unofficial high-performance TypeScript & Node.js client SDK for Uzbekistan E-IMZO and E-IMZO-SERVER REST API with first-class NestJS support.",
   "keywords": [
     "e-imzo",
