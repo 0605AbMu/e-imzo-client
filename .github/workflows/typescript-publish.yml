@@ -45,7 +45,7 @@ jobs:
       if: ${{ github.event.inputs.version != '' }}
       working-directory: typescript
       run: |
-        npm version ${{ github.event.inputs.version }} --no-git-tag-version
+        npm version ${{ github.event.inputs.version }} --no-git-tag-version --allow-same-version
 
     - name: Run Typecheck & Tests
       working-directory: typescript
