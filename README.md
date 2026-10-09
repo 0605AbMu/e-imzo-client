@@ -3,13 +3,27 @@
 [![Build & Test](https://github.com/0605AbMu/e-imzo-client/actions/workflows/dotnet-ci.yml/badge.svg)](https://github.com/0605AbMu/e-imzo-client/actions/workflows/dotnet-ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![NuGet Version](https://img.shields.io/nuget/v/EImzo.Client.svg)](https://www.nuget.org/packages/EImzo.Client)
+[![Compatible Server](https://img.shields.io/badge/E--IMZO%20Server-v2.2.x%20%7C%202.x-brightgreen.svg)](https://github.com/0605AbMu/e-imzo-server)
 
 > [!IMPORTANT]
 > **Disclaimer**: This is an **unofficial**, community-maintained open-source client SDK monorepo. It is neither affiliated with, endorsed by, nor maintained by the State Tax Committee of Uzbekistan (DSQ), SIC "Yangi Texnologiyalar", or official E-IMZO service operators.
 
 Unofficial multi-language API Client SDK Monorepo for Uzbekistan's **E-IMZO** and **E-IMZO-SERVER** REST API and Mobile ID-CARD system.
 
-Documentation reference: [qo0p/e-imzo-doc](https://github.com/qo0p/e-imzo-doc/blob/master/README.md).
+Documentation reference: [qo0p/e-imzo-doc](https://github.com/qo0p/e-imzo-doc/blob/master/README.md).  
+Compatible Server Image: [0605AbMu/e-imzo-server](https://github.com/0605AbMu/e-imzo-server) (`ghcr.io/0605abmu/e-imzo-server`).
+
+---
+
+## 🔄 Server Compatibility & Versioning
+
+This client SDK is versioned independently using [Semantic Versioning 2.0 (SemVer)](https://semver.org/) (`v1.x.x`), allowing rapid package updates, bug fixes, and multi-language SDK additions without artificial lockstep constraints.
+
+| Client SDK (`EImzo.Client`) | Compatible E-IMZO Server | Server Docker Image Reference | Status |
+|:---|:---|:---|:---|
+| **`1.x.x`** | **v2.2.1** (and all `2.x` REST APIs) | [`ghcr.io/0605abmu/e-imzo-server:2.2.1`](https://github.com/0605AbMu/e-imzo-server) | ✅ Tested & Supported |
+
+> 💡 **Server Deployment**: For instructions on deploying the E-IMZO backend with Docker, VPN certificates, and PKCS#7 / Mobile ID-Card support, see [0605AbMu/e-imzo-server](https://github.com/0605AbMu/e-imzo-server).
 
 ---
 

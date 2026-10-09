@@ -1,6 +1,7 @@
 # EImzo.Client - E-IMZO .NET Client SDK
 
 [![NuGet Version](https://img.shields.io/nuget/v/EImzo.Client.svg)](https://www.nuget.org/packages/EImzo.Client)
+[![Compatible Server](https://img.shields.io/badge/E--IMZO%20Server-v2.2.x%20%7C%202.x-brightgreen.svg)](https://github.com/0605AbMu/e-imzo-server)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![.NET Targets](https://img.shields.io/badge/.NET-8.0%20%7C%209.0%20%7C%20Standard%202.0%20%7C%20Standard%202.1-purple.svg)](https://dotnet.microsoft.com/)
 
@@ -9,7 +10,18 @@
 
 High-performance, community-maintained **unofficial** .NET Client SDK for Uzbekistan's **E-IMZO** and **E-IMZO-SERVER** REST-API and Mobile ID-CARD system.
 
-Reference documentation: [qo0p/e-imzo-doc](https://github.com/qo0p/e-imzo-doc/blob/master/README.md).
+Reference documentation: [qo0p/e-imzo-doc](https://github.com/qo0p/e-imzo-doc/blob/master/README.md).  
+Compatible Server Image: [0605AbMu/e-imzo-server](https://github.com/0605AbMu/e-imzo-server) (`ghcr.io/0605abmu/e-imzo-server`).
+
+---
+
+## 🔄 Server Compatibility Matrix
+
+| Client SDK (`EImzo.Client`) | Compatible E-IMZO Server | Docker Image Reference | Status |
+|:---|:---|:---|:---|
+| **`1.x.x`** | **v2.2.1** (and all `2.x` REST APIs) | [`ghcr.io/0605abmu/e-imzo-server:2.2.1`](https://github.com/0605AbMu/e-imzo-server) | ✅ Tested & Supported |
+
+This SDK follows [Semantic Versioning 2.0](https://semver.org/). Patch and minor releases introduce client-side enhancements, performance optimizations, and bug fixes while maintaining full compatibility with the server endpoints.
 
 ---
 

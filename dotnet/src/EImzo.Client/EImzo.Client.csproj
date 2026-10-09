@@ -4,7 +4,7 @@
     <TargetFrameworks>netstandard2.0;netstandard2.1;net8.0;net9.0</TargetFrameworks>
     <PackageId>EImzo.Client</PackageId>
     <Title>Unofficial E-IMZO Client SDK for .NET</Title>
-    <Description>Unofficial community-driven .NET Client SDK for Uzbekistan E-IMZO Server (REST-API &amp; Mobile ID-CARD). Supports authentication, PKCS#7 verification, timestamps, multi-signature, and mobile ID-card flows. Not affiliated with official E-IMZO operators.</Description>
+    <Description>Unofficial community-driven .NET Client SDK for Uzbekistan E-IMZO Server v2.2+ (REST-API &amp; Mobile ID-CARD). Supports authentication, PKCS#7 verification, timestamps, multi-signature, and mobile ID-card flows. Not affiliated with official E-IMZO operators.</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
